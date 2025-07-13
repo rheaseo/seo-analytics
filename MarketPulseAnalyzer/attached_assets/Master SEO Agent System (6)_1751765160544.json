@@ -1,0 +1,493 @@
+{
+  "name": "Master SEO Agent System",
+  "nodes": [
+    {
+      "parameters": {
+        "fromEmail": "rumjahn@gmail.com",
+        "toEmail": "rumjahn@gmail.com",
+        "subject": "Weekly Report: Online Marketing Report",
+        "html": "={{ $json.output }}",
+        "options": {}
+      },
+      "id": "8cd8a9c6-d1d1-4223-a423-ee17d6e55823",
+      "name": "Send mail report",
+      "type": "n8n-nodes-base.emailSend",
+      "position": [
+        1500,
+        20
+      ],
+      "typeVersion": 2.1,
+      "webhookId": "40df674d-64af-48fc-a464-b76998bd9994",
+      "credentials": {
+        "smtp": {
+          "id": "OijDfW0AhpA3NWoX",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=# Expert in Data Processing and Email Generation in N8N\nYOU ARE AN EXPERT IN DATA PROCESSING AND EMAIL GENERATION IN N8N. YOUR TASK IS TO CREATE AN ENGLISH-LANGUAGE HTML EMAIL THAT COMPREHENSIVELY SHOWS DETAILED GOOGLE ANALYTICS FROM VARIOUS WORKFLOWS. YOU MUST FORMAT THE CAPTURED DATA ACCORDING TO THE SPECIFIED SPECIFICATIONS AND DESIGN THE EMAIL FOR OPTIMAL READABILITY. NEVER TRUNCATE TABLES OR DATA - ALWAYS INCLUDE ALL ROWS IN FULL.\n\n## Instructions\n\n### 1. Collect Summary\n- First, retrieve the summary and table for `Google_Analytics_Weekly` from the `Google_Analytics_Weekly` workflow.\n- Second, retrieve the summary and table for `Google_Analytics_Monthly` from the `Google_Analytics_Monthly` workflow.\n- Third, retrieve multiple tables for `Google_Page_Analysis` from the `Google_Page_Analysis` workflow.\n- Fourth, retrieve the summary and table for `Google_Search_Analysis` from the `Google_Search_Analysis` workflow.\n\n### 2. Email Structure\n- Create a separate section for each dataset:\n  - **Weekly Change**: Contains the summary and table from `Google Analytics Weekly`\n  - **Monthly Change**: Contains the summary and table from `Google_Analytics_Monthly`\n  - **Page Engagement**: Contains multiple tables from `Google_Page_Analytics` \n - **SERP analysis**: Contains the summary and table from `Google_Search_Analysis`\n\n- Present the sections clearly and readably as HTML.\n\n### 3. Design and Formatting\n- Use simple HTML structures with clear section titles (e.g., `<h2>` for titles).\n- The table should be cleanly formatted (e.g., with `<table>`, `<tr>`, `<td>`).\n- Keep the presentation clear and easy to read.\n- CRITICAL: Include ALL rows in every table, regardless of size. Do not truncate or summarize.\n\n### 4. No Conclusion, No Signature\n\n### HTML Output Structure\n\n```html\n<!DOCTYPE html>\n<html>\n<head>\n    <style>\n        body {\n            font-family: Arial, sans-serif;\n            line-height: 1.6;\n        }\n        h2 {\n            color: #333;\n        }\n        table {\n            width: 100%;\n            border-collapse: collapse;\n            margin: 10px 0;\n        }\n        table, th, td {\n            border: 1px solid #ddd;\n        }\n        th, td {\n            padding: 8px;\n            text-align: left;\n        }\n        th {\n            background-color: #f4f4f4;\n        }\n    </style>\n</head>\n<body>\n    <p>Hi,</p>\n    <p>Here is your weekly Online Marketing Report for the last 7 and 30 days </p>\n    \n    <!-- ALL COMPLETE DATA MUST BE DISPLAYED HERE - NO TRUNCATION -->\n    \n</body>\n</html>",
+        "options": {}
+      },
+      "id": "668fbb33-9f5e-4356-bca6-3f283ed429a1",
+      "name": "Weekly Report Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        1060,
+        20
+      ],
+      "typeVersion": 1.7
+    },
+    {
+      "parameters": {
+        "model": "x-ai/grok-3-mini",
+        "options": {
+          "maxTokens": 32768
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        800,
+        180
+      ],
+      "id": "28d52752-4800-47b2-b90f-eed1cd9dba8f",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "6EEiP1TVZcBXSavk",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "Google_Analytics_Weekly",
+        "description": "Call this tool to get the output of the Google Ads Workflow",
+        "workflowId": {
+          "__rl": true,
+          "value": "JMu6KubBnpFHPPZL",
+          "mode": "list",
+          "cachedResultName": "Google analytics weekly"
+        }
+      },
+      "id": "fb534a77-645a-4987-92c0-a07ffe7124fd",
+      "name": "Google_Analytics_Weekly",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "position": [
+        960,
+        300
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "name": "Google_Analytics_Monthly",
+        "description": "Call this tool to get the output of the Meta Ads Workflow",
+        "workflowId": {
+          "__rl": true,
+          "value": "Ej65zvrw93VtwAMR",
+          "mode": "list",
+          "cachedResultName": "Google analytics Monthly"
+        }
+      },
+      "id": "1d340282-b3f8-4a11-9ab8-7d0725ff3399",
+      "name": "Google_Analytics_Monthly",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "position": [
+        1120,
+        300
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "name": "Google_Page_Analysis",
+        "description": "Call this tool to get the output of the Meta Ads Workflow",
+        "workflowId": {
+          "__rl": true,
+          "value": "CHobsl583ftBmqz8",
+          "mode": "list",
+          "cachedResultName": "Email SEO"
+        }
+      },
+      "id": "7d272cbe-a707-44f5-be1e-c94ec6187796",
+      "name": "Google_Page_Analysis",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "position": [
+        1280,
+        300
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                1
+              ],
+              "triggerAtHour": 7
+            }
+          ]
+        }
+      },
+      "id": "490aa49d-fcd8-4ca5-af01-50fe3ad4c7ab",
+      "name": "Schedule Trigger1",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "position": [
+        800,
+        -100
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "fromEmail": "rumjahn@gmail.com",
+        "toEmail": "rumjahn@gmail.com",
+        "subject": "Weekly Report: Online Marketing Report",
+        "html": "={{ $json.output }}",
+        "options": {}
+      },
+      "id": "89cd0dd6-267a-412f-951a-12b4c9c8b40c",
+      "name": "Send mail report2",
+      "type": "n8n-nodes-base.emailSend",
+      "position": [
+        2140,
+        20
+      ],
+      "typeVersion": 2.1,
+      "webhookId": "40df674d-64af-48fc-a464-b76998bd9994",
+      "credentials": {
+        "smtp": {
+          "id": "OijDfW0AhpA3NWoX",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=# Expert in Data Processing and Email Generation in N8N\nYOU ARE AN EXPERT IN DATA PROCESSING AND EMAIL GENERATION IN N8N. YOUR TASK IS TO CREATE AN ENGLISH-LANGUAGE HTML EMAIL SHOWING DETAILED MATOMO, UMAMI, AND SERPBEAR ANALYTICS. FOLLOW THESE PRIORITIES IF TOKEN LIMITATIONS REQUIRE REDUCING CONTENT:\n\n## Content Prioritization (IF TOKEN LIMITS ARE REACHED):\n1. CRITICAL: Always include the Serpbear_Analytics search data section completely\n2. Include Umami_Analytics weekly change overview with at least top 10 rows\n3. Include Matomo_Analytics key metrics with at least top 10 rows per table\n4. If needed, truncate tables to show only most significant data points (highest traffic/biggest changes)\n5. Add a note at bottom of any truncated table: \"[Table truncated to show top X items]\"\n\n## Instructions\n\n### 1. Collect Summary\n- First, retrieve the summary and table for `Umami_Analytics` from the `Umami_Analytics` workflow.\n- Second, retrieve the summary and table for `Matomo_Analytics` from the `Matomo_Analytics` workflow.\n- Thirdly, retrieve the summary and table for `Serpbear_Analytics` from the `Serpbear_Analytics` workflow.\n\n### 2. Email Structure\n- Create a separate section for each dataset:\n  - **Weekly Change**: Contains the summary and table from `Umami_Analytics`\n  - **Page engagement, user path and weekly change**: Contains multiple tables from `Matomo_Analytics` \n  - **Search analysis**: Contains the summary and table from `Searpbear_Analytics`\n\n- Present the sections clearly and readably as HTML.\n\n### 3. Design and Formatting\n- Use simple HTML structures with clear section titles (e.g., `<h2>` for titles).\n- The table should be cleanly formatted (e.g., with `<table>`, `<tr>`, `<td>`).\n- Keep the presentation clear and easy to read.\n- Include as many rows as possible while ensuring the most important data is always visible.\n\n### 4. No Conclusion, No Signature\n\n### HTML Output Structure\n\n```html\n<!DOCTYPE html>\n<html>\n<head>\n    <style>\n        body {\n            font-family: Arial, sans-serif;\n            line-height: 1.6;\n        }\n        h2 {\n            color: #333;\n        }\n        table {\n            width: 100%;\n            border-collapse: collapse;\n            margin: 10px 0;\n        }\n        table, th, td {\n            border: 1px solid #ddd;\n        }\n        th, td {\n            padding: 8px;\n            text-align: left;\n        }\n        th {\n            background-color: #f4f4f4;\n        }\n    </style>\n</head>\n<body>\n    <p>Hi,</p>\n    <p>Here is your weekly Online Marketing Report for the last 7 and 30 days </p>\n    \n    <!-- SECTIONS WILL BE PLACED HERE -->\n    \n</body>\n</html>",
+        "options": {}
+      },
+      "id": "b72f3fd7-6d80-46cf-9b5a-6fd3f7989363",
+      "name": "Weekly Report Agent2",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        1720,
+        20
+      ],
+      "typeVersion": 1.7
+    },
+    {
+      "parameters": {
+        "model": "x-ai/grok-3-mini",
+        "options": {
+          "maxTokens": 32768
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        1720,
+        300
+      ],
+      "id": "6679343f-950a-4235-b9d5-8d62d6cca2ea",
+      "name": "OpenRouter Chat Model2",
+      "credentials": {
+        "openRouterApi": {
+          "id": "6EEiP1TVZcBXSavk",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "Matomo_Analytics",
+        "description": "Call this tool to get the output of the Meta Ads Workflow",
+        "workflowId": {
+          "__rl": true,
+          "value": "e7F2JOnkv9tDu5Ex",
+          "mode": "list",
+          "cachedResultName": "Matomo Analytics"
+        }
+      },
+      "id": "c5a679d9-f95c-4da9-a3b3-7b5484a7846c",
+      "name": "Matomo_Analytics",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "position": [
+        2040,
+        300
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "name": "Umami_Analytics",
+        "description": "Call this tool to get the output of the Google Ads Workflow",
+        "workflowId": {
+          "__rl": true,
+          "value": "SmGfLn4FkP1UgHlB",
+          "mode": "list",
+          "cachedResultName": "Umami analytics"
+        }
+      },
+      "id": "398f73da-3b04-4658-892c-49a89c1053bf",
+      "name": "Umami_Analytics",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "position": [
+        1880,
+        300
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "name": "Google_Search_Analysis",
+        "description": "Call this tool to get the output of the Meta Ads Workflow",
+        "workflowId": {
+          "__rl": true,
+          "value": "ygRYNIuM3umq3Egb",
+          "mode": "list",
+          "cachedResultName": "Google analytics Search Data"
+        }
+      },
+      "id": "7ece6d9a-9be6-4248-ab48-61d5a88ea49c",
+      "name": "Google_Search_Analysis",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "position": [
+        1440,
+        300
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "name": "Serpbear_Analytics",
+        "description": "Call this tool to get the output of the Meta Ads Workflow",
+        "workflowId": {
+          "__rl": true,
+          "value": "PaGd2rkmWoL1IMqK",
+          "mode": "list",
+          "cachedResultName": "SERPBear Weekly"
+        }
+      },
+      "id": "79fcabdb-7ad7-4e91-a69a-33c3fc0258b9",
+      "name": "SerpBear_Analytics",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "position": [
+        2200,
+        300
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "path": "7854391e-77f9-4249-bf8a-354567e2e493",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        800,
+        -320
+      ],
+      "id": "dda3f8d4-c330-4ba7-8640-ee4a1a7961d6",
+      "name": "Webhook",
+      "webhookId": "7854391e-77f9-4249-bf8a-354567e2e493"
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        1500,
+        -260
+      ],
+      "id": "220105c1-9a48-4526-8e2e-d707a7b50859",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Weekly Report Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Weekly Report Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google_Analytics_Weekly": {
+      "ai_tool": [
+        [
+          {
+            "node": "Weekly Report Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google_Analytics_Monthly": {
+      "ai_tool": [
+        [
+          {
+            "node": "Weekly Report Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google_Page_Analysis": {
+      "ai_tool": [
+        [
+          {
+            "node": "Weekly Report Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Weekly Report Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send mail report": {
+      "main": [
+        [
+          {
+            "node": "Weekly Report Agent2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly Report Agent2": {
+      "main": [
+        [
+          {
+            "node": "Send mail report2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Weekly Report Agent2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Matomo_Analytics": {
+      "ai_tool": [
+        [
+          {
+            "node": "Weekly Report Agent2",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Umami_Analytics": {
+      "ai_tool": [
+        [
+          {
+            "node": "Weekly Report Agent2",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send mail report2": {
+      "main": [
+        []
+      ]
+    },
+    "Google_Search_Analysis": {
+      "ai_tool": [
+        [
+          {
+            "node": "Weekly Report Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SerpBear_Analytics": {
+      "ai_tool": [
+        [
+          {
+            "node": "Weekly Report Agent2",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Weekly Report Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "a0c51c44-bf62-4598-8ccf-43c3d9cd004b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "d9375e47b5a4c39b636f79651346004ad9520b52456ecaa1bf171e12a1e17484"
+  },
+  "id": "J1X0Wp6qUkzpYq3f",
+  "tags": []
+}
